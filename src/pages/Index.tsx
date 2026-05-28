@@ -15,18 +15,18 @@ const Index = () => {
     window.scrollTo(0, 0);
     
     // Update document meta tags programmatically
-    document.title = "Savannah CRM - Innovative CRM Solutions";
-    
+    document.title = "ZapCRM | Simplify Customer Relationships";
+
     // Update meta tags
     const metaTags = {
-      description: "Savannah CRM helps businesses streamline customer management, boost sales performance, and make data-driven decisions with powerful analytics.",
-      keywords: "CRM, customer relationship management, sales automation, business software, Savannah CRM",
-      "og:title": "Savannah CRM - Innovative CRM Solutions",
-      "og:description": "Transform your customer relationships with Savannah CRM's powerful tools.",
+      description: "ZapCRM helps businesses streamline customer management, boost sales performance, and make data-driven decisions with powerful analytics.",
+      keywords: "CRM, customer relationship management, sales automation, business software, ZapCRM",
+      "og:title": "ZapCRM | Simplify Customer Relationships",
+      "og:description": "Transform your customer relationships with ZapCRM's powerful tools.",
       "og:type": "website",
       "twitter:card": "summary_large_image",
-      "twitter:title": "Savannah CRM - Innovative CRM Solutions",
-      "twitter:description": "Transform your customer relationships with Savannah CRM's powerful tools."
+      "twitter:title": "ZapCRM | Simplify Customer Relationships",
+      "twitter:description": "Transform your customer relationships with ZapCRM's powerful tools."
     };
     
     // Set meta tags
@@ -56,7 +56,7 @@ const Index = () => {
       canonicalLink.setAttribute('rel', 'canonical');
       document.head.appendChild(canonicalLink);
     }
-    canonicalLink.setAttribute('href', 'https://savannahcrm.com');
+    canonicalLink.setAttribute('href', 'https://zapcrm.com');
   }, []);
 
   return (

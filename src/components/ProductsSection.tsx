@@ -4,43 +4,14 @@ import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Shield, TrendingUp, ChartBar } from "lucide-react";
 
-const ProductCard = ({ image, title, description, delay = 0 }) => {
-  return (
-    <motion.div 
-      className="bg-white rounded-xl overflow-hidden shadow-lg"
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: delay }}
-      whileHover={{ 
-        y: -10,
-        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
-      }}
-    >
-      <div className="overflow-hidden">
-        <motion.img 
-          src={image} 
-          alt={title}
-          className="w-full h-64 object-cover"
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.3 }}
-        />
-      </div>
-      <div className="p-6">
-        <h3 className="text-xl font-semibold text-savannah-700 mb-2">{title}</h3>
-        <p className="text-gray-600 mb-4 font-inter">{description}</p>
-      </div>
-    </motion.div>
-  );
-};
-
 const ProductKeyPoint = ({ icon: Icon, title, description, index }) => {
   return (
     <motion.div
-      className="flex gap-4 p-6 rounded-lg bg-white shadow-md"
-      initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ scale: 1.03 }}
+      className="flex gap-4 p-6 rounded-lg bg-white shadow-md transform-gpu transition-transform duration-300 ease-out hover:-translate-y-1"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="flex-shrink-0">
         <div className="w-12 h-12 bg-savannah-100 rounded-full flex items-center justify-center">
@@ -61,22 +32,22 @@ const ProductsSection = () => {
   // Using the uploaded CRM interface screenshots
   const dashboardImages = [
     {
-      src: "/lovable-uploads/c35d45f9-aea9-49b9-ad95-8815793dde81.png",
+      src: "/assets/c35d45f9-aea9-49b9-ad95-8815793dde81.png",
       alt: "Company Information Form",
       title: "Lead Creation"
     },
     {
-      src: "/lovable-uploads/c46a6604-b144-4bab-8085-50435980a868.png",
+      src: "/assets/c46a6604-b144-4bab-8085-50435980a868.png",
       alt: "Contact Information Form",
       title: "Contact Management"
     },
     {
-      src: "/lovable-uploads/c1e3cef5-6f56-4bdf-8b47-4fc04013ae63.png",
+      src: "/assets/c1e3cef5-6f56-4bdf-8b47-4fc04013ae63.png",
       alt: "Lead Details Form",
       title: "Lead Details"
     },
     {
-      src: "/lovable-uploads/0779f228-54be-4dc5-948d-474dd40078a8.png",
+      src: "/assets/0779f228-54be-4dc5-948d-474dd40078a8.png",
       alt: "Lead View with Activity",
       title: "Lead Activity Tracking"
     }
@@ -116,13 +87,19 @@ const ProductsSection = () => {
   };
 
   return (
-    <section id="products" className="py-16 bg-savannah-50">
-      <div className="container mx-auto px-4">
+    <section id="products" className="relative py-20 bg-gradient-to-b from-white to-savannah-50 overflow-hidden">
+      <div className="absolute top-0 right-0 w-96 h-96 bg-savannah-200/30 rounded-full blur-3xl" />
+      <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <h6 className="text-savannah-600 font-semibold subheading mb-2 tracking-wider">OUR PRODUCTS</h6>
-          <h2 className="text-3xl md:text-4xl font-bold text-savannah-800 mb-6">Discover Our CRM Solutions</h2>
-          <p className="text-xl text-gray-600 font-inter mb-8">
-            Explore the powerful tools that will transform your customer relationships
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-savannah-50 border border-savannah-200 mb-4">
+            <span className="w-2 h-2 rounded-full bg-savannah-500" />
+            <h6 className="text-savannah-700 font-semibold text-xs tracking-widest uppercase">Our Products</h6>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-savannah-800 mb-5 tracking-tight">
+            Discover Our <span className="bg-gradient-to-r from-savannah-600 to-savannah-500 bg-clip-text text-transparent">CRM Solutions</span>
+          </h2>
+          <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+            Explore the powerful tools that will transform your customer relationships.
           </p>
           <motion.div
             initial={{ y: 20, opacity: 0 }}
@@ -139,36 +116,31 @@ const ProductsSection = () => {
           </motion.div>
         </div>
         
-        {/* Dashboard Images - 2x2 grid with improved responsiveness */}
-        <motion.div layout className="mt-16">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-4 md:gap-6">
-            {dashboardImages.map((image, index) => (
-              <motion.div 
-                key={index}
-                className="cursor-pointer rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all"
-                whileHover={{ scale: 1.03 }}
-                onClick={() => openLightbox(image)}
-                layout
-              >
-                <div className="relative overflow-hidden group">
-                  <motion.img 
-                    src={image.src} 
-                    alt={image.alt}
-                    className="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover object-top"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                    <div className="p-4 text-white">
-                      <h3 className="font-semibold text-lg">{image.title}</h3>
-                      <p className="text-sm text-white/80">Click to view</p>
-                    </div>
+        {/* Dashboard Images - 2x2 grid */}
+        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-4 md:gap-6">
+          {dashboardImages.map((image, index) => (
+            <div
+              key={index}
+              onClick={() => openLightbox(image)}
+              className="cursor-pointer rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-[transform,box-shadow] duration-300 ease-out transform-gpu hover:-translate-y-1 group"
+            >
+              <div className="relative overflow-hidden">
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  loading="lazy"
+                  className="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover object-top transform-gpu transition-transform duration-500 ease-out group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                  <div className="p-4 text-white">
+                    <h3 className="font-semibold text-lg">{image.title}</h3>
+                    <p className="text-sm text-white/80">Click to view</p>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+              </div>
+            </div>
+          ))}
+        </div>
         
         {/* Product Key Points - Improved responsiveness */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">

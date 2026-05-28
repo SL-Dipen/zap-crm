@@ -1,103 +1,175 @@
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
 
 const testimonials = [
   {
-    content: "Savannah CRM has revolutionized how we manage our client relationships. The intuitive interface and powerful analytics have helped us increase our sales by 35% in just three months.",
+    content:
+      "ZapCRM has revolutionized how we manage client relationships. The intuitive interface and powerful analytics helped us increase sales by 35% in just three months.",
     author: "Sarah Johnson",
     position: "Sales Manager",
     company: "TechGrowth Inc.",
-    avatar: "https://randomuser.me/api/portraits/women/44.jpg"
+    avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+    rating: 5,
   },
   {
-    content: "I've used many CRM systems throughout my career, but none compare to the ease of use and comprehensive features of Savannah. It's been a game-changer for our organization.",
+    content:
+      "I've used many CRM systems throughout my career, but none compare to the ease of use and comprehensive features of ZapCRM. It's been a game-changer for our organization.",
     author: "Michael Chen",
     position: "CEO",
     company: "Innovative Solutions",
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg"
+    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+    rating: 5,
   },
   {
-    content: "The customer support team at Savannah CRM is outstanding. They've been with us every step of the way, ensuring we're leveraging the platform to its fullest potential.",
+    content:
+      "The customer support team at ZapCRM is outstanding. They've been with us every step of the way, ensuring we're leveraging the platform to its fullest potential.",
     author: "Elena Rodriguez",
     position: "Customer Success Director",
     company: "Global Services Ltd",
-    avatar: "https://randomuser.me/api/portraits/women/68.jpg"
+    avatar: "https://randomuser.me/api/portraits/women/68.jpg",
+    rating: 5,
   },
 ];
 
 const TestimonialsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [paused, setPaused] = useState(false);
+
+  const next = useCallback(
+    () => setActiveIndex((i) => (i + 1) % testimonials.length),
+    []
+  );
+  const prev = () =>
+    setActiveIndex((i) => (i - 1 + testimonials.length) % testimonials.length);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setActiveIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-        setIsTransitioning(false);
-      }, 250); // Half of transition duration (500ms / 2)
-    }, 2000); // Change every 2 seconds
+    if (paused) return;
+    const id = setInterval(next, 5000);
+    return () => clearInterval(id);
+  }, [paused, next]);
 
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleDotClick = (index: number) => {
-    if (index !== activeIndex) {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setActiveIndex(index);
-        setIsTransitioning(false);
-      }, 250);
-    }
-  };
+  const t = testimonials[activeIndex];
 
   return (
-    <section id="testimonials" className="section-padding bg-savannah-50">
-      <div className="container mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <h6 className="text-savannah-600 font-semibold subheading mb-2 tracking-wider">TESTIMONIALS</h6>
-          <h2 className="text-3xl md:text-4xl font-bold text-savannah-800 mb-4">What Our Customers Say</h2>
+    <section
+      id="testimonials"
+      className="relative section-padding bg-gradient-to-b from-savannah-50 to-white overflow-hidden"
+    >
+      <div className="absolute top-1/2 left-0 w-72 h-72 bg-savannah-200/30 rounded-full blur-2xl -translate-y-1/2 pointer-events-none" />
+      <div className="absolute top-1/2 right-0 w-72 h-72 bg-savannah-300/20 rounded-full blur-2xl -translate-y-1/2 pointer-events-none" />
+
+      <div className="container mx-auto relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center max-w-3xl mx-auto mb-14"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-savannah-200 mb-4 shadow-sm">
+            <Star size={12} className="text-savannah-500 fill-savannah-500" />
+            <h6 className="text-savannah-700 font-semibold text-xs tracking-widest uppercase">
+              Testimonials
+            </h6>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-savannah-800 mb-4 tracking-tight">
+            Loved by teams worldwide
+          </h2>
           <p className="text-gray-600 text-lg">
-            Don't just take our word for it. See how Savannah CRM has transformed businesses worldwide.
+            Don't just take our word for it — see how ZapCRM has transformed
+            businesses across industries.
           </p>
-        </div>
-        
-        <div className="max-w-4xl mx-auto">
-          <div className="relative bg-white rounded-2xl shadow-xl p-8 md:p-10">
-            <div className="absolute -top-5 left-10 text-7xl text-savannah-300 font-serif">"</div>
-            <div className={`transition-all duration-500 ${isTransitioning ? 'opacity-0 transform translate-y-2' : 'opacity-100 transform translate-y-0'}`}>
-              <div className="mb-6">
-                <p className="text-lg md:text-xl text-gray-700 italic relative z-10">
-                  {testimonials[activeIndex].content}
+        </motion.div>
+
+        <div
+          className="max-w-4xl mx-auto"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          <div className="relative bg-white rounded-3xl shadow-2xl shadow-savannah-200/40 p-8 md:p-12 border border-gray-100">
+            <Quote
+              className="absolute -top-6 left-8 text-savannah-500 fill-savannah-500"
+              size={48}
+            />
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -14 }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <div className="flex gap-1 mb-5">
+                  {Array.from({ length: t.rating }).map((_, i) => (
+                    <Star
+                      key={i}
+                      size={18}
+                      className="text-savannah-500 fill-savannah-500"
+                    />
+                  ))}
+                </div>
+
+                <p className="text-xl md:text-2xl text-gray-800 leading-relaxed mb-8 font-medium">
+                  "{t.content}"
                 </p>
-              </div>
-              <div className="flex items-center">
-                <div className="w-14 h-14 rounded-full overflow-hidden mr-4">
-                  <img 
-                    src={testimonials[activeIndex].avatar} 
-                    alt={testimonials[activeIndex].author}
-                    className="w-full h-full object-cover"
-                  />
+
+                <div className="flex items-center gap-4">
+                  <div className="relative">
+                    <img
+                      src={t.avatar}
+                      alt={t.author}
+                      className="w-14 h-14 rounded-full object-cover ring-4 ring-savannah-100"
+                    />
+                    <span className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 border-2 border-white rounded-full" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-savannah-800">{t.author}</h4>
+                    <p className="text-sm text-gray-600">
+                      {t.position} ·{" "}
+                      <span className="text-savannah-600 font-medium">
+                        {t.company}
+                      </span>
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-bold text-savannah-800">{testimonials[activeIndex].author}</h4>
-                  <p className="text-sm text-gray-600">
-                    {testimonials[activeIndex].position}, {testimonials[activeIndex].company}
-                  </p>
-                </div>
-              </div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Arrow nav */}
+            <div className="absolute top-1/2 -translate-y-1/2 -left-3 sm:-left-6">
+              <button
+                onClick={prev}
+                aria-label="Previous"
+                className="w-10 h-10 sm:w-12 sm:h-12 bg-white border border-gray-200 rounded-full shadow-md flex items-center justify-center text-savannah-700 hover:bg-savannah-600 hover:text-white hover:border-savannah-600 transition-all duration-300 ease-out"
+              >
+                <ChevronLeft size={20} />
+              </button>
+            </div>
+            <div className="absolute top-1/2 -translate-y-1/2 -right-3 sm:-right-6">
+              <button
+                onClick={next}
+                aria-label="Next"
+                className="w-10 h-10 sm:w-12 sm:h-12 bg-white border border-gray-200 rounded-full shadow-md flex items-center justify-center text-savannah-700 hover:bg-savannah-600 hover:text-white hover:border-savannah-600 transition-all duration-300 ease-out"
+              >
+                <ChevronRight size={20} />
+              </button>
             </div>
           </div>
-          
-          <div className="flex justify-center mt-8 gap-3">
+
+          {/* Dots */}
+          <div className="flex justify-center mt-8 gap-2">
             {testimonials.map((_, index) => (
               <button
                 key={index}
-                className={`w-3 h-3 rounded-full ${
-                  activeIndex === index ? "bg-savannah-600" : "bg-gray-300"
-                } transition-all duration-500 hover:scale-110`}
-                onClick={() => handleDotClick(index)}
+                onClick={() => setActiveIndex(index)}
                 aria-label={`View testimonial ${index + 1}`}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  activeIndex === index
+                    ? "bg-savannah-600 w-8"
+                    : "bg-gray-300 hover:bg-savannah-300 w-2"
+                }`}
               />
             ))}
           </div>
