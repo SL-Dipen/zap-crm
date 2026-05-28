@@ -1,0 +1,190 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600&family=Raleway:wght@400;500;600;700&family=Rubik:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 210 64% 35%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  body {
+    @apply bg-background text-foreground font-inter;
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3, h4, h5 {
+    @apply font-montserrat font-bold;
+  }
+
+  h6, .subheading {
+    @apply font-raleway;
+  }
+  
+  .ui-element {
+    @apply font-rubik;
+  }
+
+  /* Smooth scrolling for the entire page */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Prevent horizontal scroll */
+  .container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      max-width: 1024px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .container {
+      max-width: 1280px;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .container {
+      max-width: 1536px;
+    }
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-savannah-600 text-white px-6 py-3 rounded-md font-medium hover:bg-savannah-700 transition-colors duration-300 font-rubik;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-savannah-600 border border-savannah-600 px-6 py-3 rounded-md font-medium hover:bg-savannah-50 transition-colors duration-300 font-rubik;
+  }
+  
+  .section-padding {
+    @apply py-8 px-4 sm:py-12 sm:px-6 md:py-16 md:px-8 lg:px-16;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+
+  /* Fancy link animation */
+  .fancy-link {
+    @apply relative inline-block;
+  }
+  
+  .fancy-link::after {
+    content: '';
+    @apply absolute w-full scale-x-0 h-0.5 bottom-0 left-0 bg-savannah-500 origin-bottom-right transition-transform duration-300;
+  }
+  
+  .fancy-link:hover::after {
+    @apply scale-x-100 origin-bottom-left;
+  }
+
+  /* Page transition animations */
+  .page-transition-enter {
+    @apply opacity-0 transform translate-y-4;
+  }
+  
+  .page-transition-enter-active {
+    @apply opacity-100 transform translate-y-0 transition-all duration-500;
+  }
+  
+  .page-transition-exit {
+    @apply opacity-100 transform translate-y-0;
+  }
+  
+  .page-transition-exit-active {
+    @apply opacity-0 transform translate-y-4 transition-all duration-500;
+  }
+
+  /* Mobile responsive fixes */
+  @media (max-width: 768px) {
+    .mobile-fix {
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+    
+    .mobile-padding {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    .mobile-text {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+  }
+}
